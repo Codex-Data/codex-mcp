@@ -1,0 +1,51 @@
+{
+  "name": "codex-mcp",
+  "module": "src/index.ts",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Model Context Protocol (MCP) server for fetching blockchain data from Codex",
+  "bin": {
+    "codex-mcp": "./bin/cli.js"
+  },
+  "main": "build/index.js",
+  "files": [
+    "build/",
+    "bin/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node --env-file=.env build/index.js",
+    "dev": "tsx watch --env-file=.env src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "evm",
+    "blockchain",
+    "ethereum",
+    "solana",
+    "web3",
+    "smart-contracts",
+    "ai",
+    "agent"
+  ],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.6.5",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.11",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@codex-data/sdk": "^1.0.5",
+    "@modelcontextprotocol/sdk": "^1.7.0",
+    "zod": "^3.24.2"
+  }
+}
