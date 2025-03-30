@@ -1,7 +1,6 @@
 {
   "name": "codex-mcp",
   "module": "src/index.ts",
-  "type": "module",
   "version": "1.0.0",
   "description": "Model Context Protocol (MCP) server for fetching blockchain data from Codex",
   "bin": {
@@ -34,7 +33,7 @@
   ],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.6.5",
+  "packageManager": "pnpm@10.7.0",
   "engines": {
     "node": ">=20.0.0"
   },
