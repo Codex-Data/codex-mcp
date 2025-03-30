@@ -11,11 +11,17 @@ import {
   getLatestTokens,
   getTokenBalances,
   getTokenHolders,
-  getTokenPairs,
-  getTokenPairsWithMetadata,
   getTop10HoldersPercent,
 } from "./tokens.js";
-import { getDetailedPairStats, getDetailedPairsStats } from "./pairs.js";
+import {
+  getDetailedPairStats,
+  getDetailedPairsStats,
+  filterPairs,
+  getPairMetadata,
+  getTokenPairs,
+  getTokenPairsWithMetadata,
+} from "./pairs.js";
+import { filterExchanges } from "./exchanges.js";
 
 function registerTool<TParams = undefined>(
   server: McpServer,
@@ -70,6 +76,13 @@ const codexTools: Tool<any>[] = [
   // Pair tools
   getDetailedPairStats,
   getDetailedPairsStats,
+  filterPairs,
+  getPairMetadata,
+  getTokenPairs,
+  getTokenPairsWithMetadata,
+
+  // Exchange tools
+  filterExchanges,
 ];
 
 // Register all tools with the server

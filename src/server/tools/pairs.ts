@@ -11,6 +11,10 @@ import {
   numberFilterSchema,
   booleanOptionalSchema,
   offsetPaginationSchema,
+  quoteTokenSchema,
+  limitSchema,
+  tokenIdSchema,
+  cursorSchema,
 } from "./schema.js";
 import { createTool, createToolResponse } from "./tool-helpers.js";
 import {
@@ -114,6 +118,21 @@ const FilterPairsInputSchema = z.object({
   statsType: statsTypeSchema,
 });
 
+const GetPairMetadataInputSchema = pairIdSchema.extend({
+  quoteToken: quoteTokenSchema.optional(),
+  statsType: statsTypeSchema.optional(),
+});
+
+const GetTokenPairsInputSchema = tokenIdSchema.extend({
+  limit: limitSchema.describe(
+    "Maximum number of pairs to return (default: 10)"
+  ),
+});
+
+const GetLiquidityLocksInputSchema = pairIdSchema.extend({
+  cursor: cursorSchema,
+});
+
 /**
  * Get Detailed Pair Stats Tool
  * Retrieves bucketed stats for a given token within a pair
@@ -133,7 +152,7 @@ export const getDetailedPairStats = createTool(
       bucketCount,
     });
 
-    return createToolResponse(stats);
+    return createToolResponse(stats.getDetailedPairStats);
   }
 );
 
@@ -158,7 +177,7 @@ export const getDetailedPairsStats = createTool(
       })),
     });
 
-    return createToolResponse(stats);
+    return createToolResponse(stats.getDetailedPairsStats);
   }
 );
 
@@ -187,6 +206,115 @@ export const filterPairs = createTool(
 
     const filteredPairs = await codex.queries.filterPairs(filterParams);
 
-    return createToolResponse(filteredPairs);
+    return createToolResponse(filteredPairs.filterPairs);
+  }
+);
+
+/**
+ * Get Pair Metadata Tool
+ * Returns metadata for a pair of tokens.
+ */
+export const getPairMetadata = createTool(
+  "get_pair_metadata",
+  "Get metadata for a pair of tokens, including price, volume, and liquidity stats over various timeframes.",
+  GetPairMetadataInputSchema,
+  async (params) => {
+    const { networkId, address, quoteToken, statsType } = params;
+    const codex = getCodex();
+
+    const metadata = await codex.queries.pairMetadata({
+      pairId: `${address}:${networkId}`,
+      quoteToken,
+      statsType,
+    });
+
+    return createToolResponse(metadata.pairMetadata);
+  }
+);
+
+/**
+ * Get Token Pairs
+ * Retrieves pairs for a specific token
+ */
+export const getTokenPairs = createTool(
+  "get_token_pairs",
+  "Get a list of pairs for a token",
+  GetTokenPairsInputSchema,
+  async (params) => {
+    const { networkId, address, limit = 10 } = params;
+    const codex = getCodex();
+
+    const pairs = await codex.queries.listPairsForToken({
+      networkId,
+      tokenAddress: address,
+      limit,
+    });
+
+    return createToolResponse(pairs.listPairsForToken);
+  }
+);
+
+/**
+ * Get Token Pairs With Metadata
+ * Retrieves pairs with metadata for a specific token
+ */
+export const getTokenPairsWithMetadata = createTool(
+  "get_token_pairs_with_metadata",
+  "Get pairs with metadata for a specific token",
+  GetTokenPairsInputSchema,
+  async (params) => {
+    const { networkId, address, limit = 10 } = params;
+    const codex = getCodex();
+
+    const pairs = await codex.queries.listPairsWithMetadataForToken({
+      networkId,
+      tokenAddress: address,
+      limit,
+    });
+
+    return createToolResponse(pairs.listPairsWithMetadataForToken);
+  }
+);
+
+/**
+ * Get Liquidity Metadata Tool
+ * Returns liquidity metadata for a given pair, including both unlocked and locked liquidity data
+ */
+export const getLiquidityMetadata = createTool(
+  "get_liquidity_metadata",
+  "Get liquidity metadata for a pair, including both unlocked and locked liquidity data",
+  pairIdSchema,
+  async (params) => {
+    const { networkId, address } = params;
+    const codex = getCodex();
+
+    const metadata = await codex.queries.liquidityMetadata({
+      networkId,
+      pairAddress: address,
+    });
+
+    return createToolResponse(metadata.liquidityMetadata);
+  }
+);
+
+/**
+ * Get Liquidity Locks Tool
+ * Returns liquidity locks for a given pair, including details about locked amounts, lock duration, and owner information
+ */
+export const getLiquidityLocks = createTool(
+  "get_liquidity_locks",
+  "Get liquidity locks for a pair, including details about locked amounts, lock duration, and owner information (Codex Growth and Enterprise Plans only)",
+  GetLiquidityLocksInputSchema,
+  async (params) => {
+    const { networkId, address, cursor } = params;
+    const codex = getCodex();
+
+    const locks = await codex.queries.liquidityLocks({
+      networkId,
+      pairAddress: address,
+      cursor,
+    });
+
+    return createToolResponse(locks.liquidityLocks);
   }
 );

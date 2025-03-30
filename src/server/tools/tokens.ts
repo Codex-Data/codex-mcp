@@ -87,12 +87,6 @@ const GetTokenSparklinesInputSchema = z.object({
   addresses: tokenAddressesSchema,
 });
 
-const GetTokenPairsInputSchema = tokenIdSchema.extend({
-  limit: limitSchema.describe(
-    "Maximum number of pairs to return (default: 10)"
-  ),
-});
-
 const GetTokenChartUrlsInputSchema = z.object({
   networkId: networkIdSchema.describe("The network ID the pair is on"),
   pairAddress: pairAddressSchema,
@@ -249,7 +243,7 @@ export const getTokenInfo = createTool(
       input: params,
     });
 
-    return createToolResponse(tokenData);
+    return createToolResponse(tokenData.token);
   }
 );
 
@@ -267,7 +261,7 @@ export const getTokens = createTool(
       ids: params.ids,
     });
 
-    return createToolResponse(tokensData);
+    return createToolResponse(tokensData.tokens);
   }
 );
 
@@ -286,7 +280,7 @@ export const getTokenPrices = createTool(
       inputs: params.inputs,
     });
 
-    return createToolResponse(tokenPrices);
+    return createToolResponse(tokenPrices.getTokenPrices);
   }
 );
 
@@ -324,7 +318,7 @@ export const filterTokens = createTool(
 
     const filteredTokens = await codex.queries.filterTokens(filterParams);
 
-    return createToolResponse(filteredTokens);
+    return createToolResponse(filteredTokens.filterTokens);
   }
 );
 
@@ -348,7 +342,7 @@ export const getTokenHolders = createTool(
       },
     });
 
-    return createToolResponse(holders);
+    return createToolResponse(holders.holders);
   }
 );
 
@@ -374,7 +368,7 @@ export const getTokenBalances = createTool(
       },
     });
 
-    return createToolResponse(balances);
+    return createToolResponse(balances.balances);
   }
 );
 
@@ -394,51 +388,7 @@ export const getTop10HoldersPercent = createTool(
       tokenId: `${address}:${networkId}`,
     });
 
-    return createToolResponse({ percent });
-  }
-);
-
-/**
- * Get Token Pairs
- * Retrieves pairs for a specific token
- */
-export const getTokenPairs = createTool(
-  "get_token_pairs",
-  "Get a list of pairs for a token",
-  GetTokenPairsInputSchema,
-  async (params) => {
-    const { networkId, address, limit = 10 } = params;
-    const codex = getCodex();
-
-    const pairs = await codex.queries.listPairsForToken({
-      networkId,
-      tokenAddress: address,
-      limit,
-    });
-
-    return createToolResponse(pairs);
-  }
-);
-
-/**
- * Get Token Pairs With Metadata
- * Retrieves pairs with metadata for a specific token
- */
-export const getTokenPairsWithMetadata = createTool(
-  "get_token_pairs_with_metadata",
-  "Get pairs with metadata for a specific token",
-  GetTokenPairsInputSchema,
-  async (params) => {
-    const { networkId, address, limit = 10 } = params;
-    const codex = getCodex();
-
-    const pairs = await codex.queries.listPairsWithMetadataForToken({
-      networkId,
-      tokenAddress: address,
-      limit,
-    });
-
-    return createToolResponse(pairs);
+    return createToolResponse(percent.top10HoldersPercent);
   }
 );
 
@@ -481,7 +431,7 @@ export const getTokenChartData = createTool(
       symbolType,
     });
 
-    return createToolResponse(chartData);
+    return createToolResponse(chartData.getBars);
   }
 );
 
@@ -509,7 +459,7 @@ export const getTokenChartUrls = createTool(
       },
     });
 
-    return createToolResponse(chartUrls);
+    return createToolResponse(chartUrls.chartUrls);
   }
 );
 
@@ -531,7 +481,7 @@ export const getLatestTokens = createTool(
       offset,
     });
 
-    return createToolResponse(latestTokens);
+    return createToolResponse(latestTokens.getLatestTokens);
   }
 );
 
@@ -553,7 +503,7 @@ export const getTokenSparklines = createTool(
       },
     });
 
-    return createToolResponse(sparklines);
+    return createToolResponse(sparklines.tokenSparklines);
   }
 );
 
@@ -575,7 +525,7 @@ export const getTokenEvents = createTool(
       query: params.query,
     });
 
-    return createToolResponse(events);
+    return createToolResponse(events.getTokenEvents);
   }
 );
 
@@ -597,6 +547,6 @@ export const getTokenEventsForMaker = createTool(
       query: params.query,
     });
 
-    return createToolResponse(events);
+    return createToolResponse(events.getTokenEventsForMaker);
   }
 );
