@@ -519,7 +519,7 @@ export const getTokenChartUrls = createTool(
  */
 export const getLatestTokens = createTool(
   "get_latest_tokens",
-  "Get a list of the latests token contracts deployed (Codex Growth and Enterprise Plans only)",
+  "Get a list of the latests token contracts deployed (Codex Growth and Enterprise Plans only). Note: This endpoint is only available on Ethereum, Optimum, Base, and Arbitrum networks (network IDs 1, 10, 8453, and 42161).",
   GetLatestTokensInputSchema,
   async (params) => {
     const { networkFilter, limit, offset } = params;

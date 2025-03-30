@@ -34,6 +34,7 @@ export const withErrorHandling = <T>(
       const result = await handler(params);
       return createToolResponse(result);
     } catch (error) {
+      console.error("Tool error", error);
       return handleError(error, errorMessage);
     }
   };

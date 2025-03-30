@@ -7,7 +7,7 @@ import {
 } from "@codex-data/sdk/dist/sdk/generated/graphql.js";
 import { z } from "zod";
 
-export const networkIdSchema = z.number().describe("The network ID");
+export const networkIdSchema = z.number().positive().describe("The network ID");
 export const networkIdOptionalSchema = networkIdSchema
   .optional()
   .describe("Optional network ID");
