@@ -16,7 +16,7 @@ import { createTool, createToolResponse } from "./tool-helpers.js";
 import {
   PairRankingAttribute,
   RankingDirection,
-} from "@codex-data/sdk/dist/sdk/generated/graphql";
+} from "@codex-data/sdk/dist/sdk/generated/graphql.js";
 
 // --- Tool Input Schemas ---
 

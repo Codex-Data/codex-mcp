@@ -27,7 +27,7 @@ import {
   EventType,
   TokenRankingAttribute,
   SymbolType,
-} from "@codex-data/sdk/dist/sdk/generated/graphql";
+} from "@codex-data/sdk/dist/sdk/generated/graphql.js";
 
 // --- Tool Input Schemas ---
 

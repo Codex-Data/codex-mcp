@@ -4,7 +4,7 @@ import {
   HoldersSortAttribute,
   RankingDirection,
   TokenPairStatisticsType,
-} from "@codex-data/sdk/dist/sdk/generated/graphql";
+} from "@codex-data/sdk/dist/sdk/generated/graphql.js";
 import { z } from "zod";
 
 export const networkIdSchema = z.number().describe("The network ID");
