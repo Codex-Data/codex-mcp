@@ -1,36 +1,19 @@
-import { Codex } from "@codex-data/sdk";
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { startServer } from "./server/server.js";
 
-if (!process.env.CODEX_API_KEY) {
-  throw new Error("CODEX_API_KEY is not defined in environment variables");
+async function main() {
+  try {
+    const server = await startServer();
+    const transport = new StdioServerTransport();
+    await server.connect(transport);
+    console.error("Codex MCP Server running on stdio");
+  } catch (error) {
+    console.error("Error starting MCP server:", error);
+    process.exit(1);
+  }
 }
 
-const codex = new Codex(process.env.CODEX_API_KEY);
-
-const server = new McpServer({
-  name: "Codex",
-  version: "0.1.0",
+main().catch((error) => {
+  console.error("Fatal error in main():", error);
+  process.exit(1);
 });
-
-server.tool("get_networks", async () => {
-  const networks = await codex.queries.getNetworks({});
-  return {
-    content: [
-      {
-        type: "text",
-        text: JSON.stringify({
-          networks: networks.getNetworks.map((network) => ({
-            id: network.id,
-            name: network.name,
-          })),
-        }),
-      },
-    ],
-  };
-});
-
-const transport = new StdioServerTransport();
-await server.connect(transport);
-
-console.log("MCP server is running");

@@ -18,7 +18,20 @@ pnpm build
 
 ## Usage
 
-Start the server:
+To use the MCP Codex Server, you need to have a Codex API key. You can get your key from the [Codex Dashboard](https://dashboard.codex.io).
+
+### Using npx (No Installation Required)
+
+You can run the MCP Codex Server directly without installation using npx:
+
+```bash
+# Run the server in stdio mode (for CLI tools)
+npx @codex-data/codex-mcp
+```
+
+### Running the Server Locally
+
+Start the server using stdio (for embedding in CLI tools):
 
 ```bash
 pnpm start
@@ -30,28 +43,58 @@ For development with auto-reload:
 pnpm dev
 ```
 
-## Available Tools
-
-- `get_networks`: Get the list of available networks.
-
-## Integration with Claude Desktop
+### Integration with Claude Desktop
 
 1. Open Claude Desktop settings
-2. Navigate to MCP settings
+2. Go to the Developer tab and click "Edit Config"
 3. Add a new server configuration:
-   ```json
-   {
-     "mcpServers": {
-       "codex-data": {
-         "command": "node",
-         "args": ["/path/to/codex-mcp/build/index.js"],
-         "disabled": false,
-         "autoApprove": []
-       }
-     }
-   }
-   ```
+
+No installation:
+
+```json
+{
+  "mcpServers": {
+    "codex-data": {
+      "command": "npx",
+      "args": ["@codex-data/codex-mcp"],
+      "env": {
+        "CODEX_API_KEY": "<your-codex-api-key>"
+      }
+    }
+  }
+}
+```
+
+Local installation:
+
+```json
+{
+  "mcpServers": {
+    "codex-data": {
+      "command": "node",
+      "args": ["/path/to/codex-mcp/build/index.js"],
+      "env": {
+        "CODEX_API_KEY": "<your-codex-api-key>"
+      }
+    }
+  }
+}
+```
+
 4. Replace `/path/to/codex-mcp` with the actual path to your installation
+5. Replace `<your-codex-api-key>` with your actual Codex API key
+
+### Connecting using Claude CLI
+
+If you're using Claude CLI:
+
+```bash
+# Add the MCP server
+claude mcp add codex-data -e CODEX_API_KEY=<your-codex-api-key> npx @codex-data/codex-mcp
+
+# Start Claude with the MCP server enabled
+claude
+```
 
 ## License
 
