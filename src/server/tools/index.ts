@@ -1,5 +1,5 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { ToolHandler, ToolResponse, Tool } from "../../types.js";
+import { ToolHandler, Tool } from "../../types.js";
 import { ZodRawShape } from "zod";
 
 import { getNetworks, getNetworkStatus, getNetworkStats } from "./networks.js";
