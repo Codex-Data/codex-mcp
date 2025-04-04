@@ -56,7 +56,7 @@ No installation:
   "mcpServers": {
     "codex-data": {
       "command": "npx",
-      "args": ["@codex-data/codex-mcp"],
+      "args": ["-y", "@codex-data/codex-mcp"],
       "env": {
         "CODEX_API_KEY": "<your-codex-api-key>"
       }

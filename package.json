@@ -2,7 +2,7 @@
   "name": "codex-mcp",
   "module": "src/index.ts",
   "type": "module",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Model Context Protocol (MCP) server for fetching blockchain data from Codex",
   "bin": {
     "codex-mcp": "./bin/cli.js"
