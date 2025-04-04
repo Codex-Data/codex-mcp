@@ -35,6 +35,13 @@
   ],
   "author": "Codex",
   "homepage": "https://docs.codex.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codex-data/codex-mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/codex-data/codex-mcp/issues"
+  },
   "license": "ISC",
   "packageManager": "pnpm@10.7.0",
   "engines": {
