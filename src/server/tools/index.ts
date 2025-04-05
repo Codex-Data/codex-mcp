@@ -12,6 +12,11 @@ import {
   getTokenBalances,
   getTokenHolders,
   getTop10HoldersPercent,
+  getTokenSparklines,
+  getTokenEvents,
+  getTokenEventsForMaker,
+  getTokenChartData,
+  getTokenChartUrls,
 } from "./tokens.js";
 import {
   getDetailedPairStats,
@@ -20,6 +25,8 @@ import {
   getPairMetadata,
   getTokenPairs,
   getTokenPairsWithMetadata,
+  getLiquidityMetadata,
+  getLiquidityLocks,
 } from "./pairs.js";
 import { filterExchanges } from "./exchanges.js";
 
@@ -69,9 +76,12 @@ const codexTools: Tool<any>[] = [
   getTokenHolders,
   getTokenBalances,
   getTop10HoldersPercent,
-  getTokenPairs,
-  getTokenPairsWithMetadata,
+  getTokenChartData,
+  getTokenChartUrls,
   getLatestTokens,
+  getTokenSparklines,
+  getTokenEvents,
+  getTokenEventsForMaker,
 
   // Pair tools
   getDetailedPairStats,
@@ -80,6 +90,8 @@ const codexTools: Tool<any>[] = [
   getPairMetadata,
   getTokenPairs,
   getTokenPairsWithMetadata,
+  getLiquidityMetadata,
+  getLiquidityLocks,
 
   // Exchange tools
   filterExchanges,
